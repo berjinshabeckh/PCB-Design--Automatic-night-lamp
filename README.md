@@ -1,79 +1,64 @@
-<H3> NAME : Aakash S</H3>
-<H3> REGISTER NO : 212221240001.</H3>
-<H3>EX. NO.5</H3>
-<H3>DATE: 16-03-2024</H3>
-<H1 ALIGN =CENTER> Implementation of Kalman Filter</H1>
-<H3>Aim:</H3> To Construct a Python Code to implement the Kalman filter to predict the position and velocity of an object.
-<H3>Algorithm:</H3>
-Step 1: Define the state transition model F, the observation model H, the process noise covariance Q, the measurement noise covariance R, the initial state estimate x0, and the initial error covariance P0.<BR>
-Step 2:  Create a KalmanFilter object with these parameters.<BR>
-Step 3: Simulate the movement of the object for a number of time steps, generating true states and measurements. <BR>
-Step 3: For each measurement, predict the next state using kf.predict().<BR>
-Step 4: Update the state estimate based on the measurement using kf.update().<BR>
-Step 5: Store the estimated state in a list.<BR>
-Step 6: Plot the true and estimated positions.<BR>
-<H3>Program:</H3>
+# PCB-Design--Automatic-night-lamp
 
-```py
+# Aim
+To design a PCB circuit for automatic night lamp using eagle sofware.
 
-import numpy as np
+# Software required
+Eagle 
 
-class KalmanFilter:
-    def __init__(self, F, H, Q, R, x0, P0):
-        self.F = F 
-        self.H = H 
-        self.Q = Q 
-        self.R = R 
-        self.x = x0 
-        self.P = P0 
-    def predict(self):
-      self.x = np.dot(self.F, self.x)
-      self.P = np.dot(np.dot(self.F, self.P), self.F.T) + self.Q
+# Procedure
 
-    def update (self, z):
-      y=z - np.dot(self.H, self.x)
-      S = np.dot (np.dot(self.H, self.P), self.H.T)+ self.R
-      K = np.dot (np.dot (self.P, self.H.T), np.linalg.inv(S))
-      self.x = self.x + np.dot (K, y)
-      self.P = np.dot (np.eye(self.F.shape[0]) -np.dot (K, self.H), self.P)
-```
-```py
-dt = 0.1
-F = np.array([[1, dt], [0, 1]])
-H = np.array([[1, 0]])
-Q = np.diag([0.1, 0.1])
-R = np.array([[1]])
-x0 = np.array([0, 0])
-P0 = np.diag([1, 1])
-```
-```py
-kf=KalmanFilter(F,H,Q,R,x0,P0)
+Open EAGLE and create a new project for your PCB design. </br>
+Open a new schematic file within your project.</br>
+Use the libraries provided in EAGLE or create custom libraries if necessary.</br>
+Place components onto the schematic sheet by using the 'Add' tool.</br>
+Connect the components using the 'Net' tool.</br>
+Label nets appropriately to ensure clarity</br>
+Once routing is complete, perform a ERC to ensure there are no errors and save the schematic.</br>
+Click on the 'Generate/Switch to Board' icon to create a board from your schematic.</br>
+EAGLE's board layout editor allows you to place components, route traces, and define board shapes.</br>
+Arrange components on the board to optimize space usage and minimize signal interference.</br>
+Route traces to connect components according to your schematic.</br>
+Use the various routing and editing tools provided by EAGLE to ensure proper routing and avoid design rule violations.</br>
+Once routing is complete, perform a design rule check (DRC) to ensure there are no errors and save the board layout.</br>
+Go to File > CAM Processor and set up CAM jobs to generate Gerber files for your PCB layers.</br>
+Verify generated files to ensure they contain all necessary information.</br>
+Save the generated manufacturing files</br>
 
-true_states = []
-measurements = []
-for i in range(100):
-  true_states.append([i*dt, 1]) 
-  measurements.append(i*dt +np.random.normal(scale=1))
-est_states=[]
-for z in measurements:
-  kf.predict()
-  kf.update (np.array([z]))
-  est_states.append(kf.x)
-```
-```py
-import matplotlib.pyplot as plt
-plt.plot([s[0] for s in true_states], label='true')
-plt.plot([s[0] for s in est_states], label='estimate')
-plt.legend()
-plt.show()
+# Theory
 
-```
-<H3>Output:</H3>
+Here is a simple dark sensor circuit that is useful to switch ON and OFF any appliances automatically depending on the Light. As an output device, we’ll utilise an LED in this example. To detect the light, we will use an LDR (Light-dependent Resistor). As the name says, when the light intensity on LDR is high, the resistance through it decreases; when the light intensity on LDR is low, the resistance through it increases and becomes extremely high. It’s a kind of variable resistor, but the resistance varies based on the light.
 
-<img width="497" alt="image" src="https://github.com/JayanthYadav123/Ex-5--AAI/assets/94836154/af11dfbd-a7f0-4472-b618-a701abbe46b1">
-
-<H3>Results:</H3>
-Thus, Kalman filter is implemented to predict the next position and   velocity in Python.
+### Working 
+During the daytime when there is a light, the LDR has very low resistance and all voltage coming through R1 dropped with the ground. This makes the voltage at the base of the transistor very low and it will not switch ON the transistor. Because the transistor is OFF, the current will not flow through the transistor. As a result, LED will not turn ON.At night when there is no light, the LDR has high resistance and very less power dropped with the ground. This makes the voltage at the base of the transistor high to turn the transistor ON. Because the transistor is turned ON, current flows through the transistor. It flows from the positive battery terminal, through R2, the LED, and the transistor down to the negative battery terminal. As a result, the LED turns ON.The same circuit can be used for a variety of purposes. Check out the Automatic Street Light Control System using LDR application. Instead of LED, bulbs are used using a relay.
 
 
+
+# Circuit Diagram
+
+![2asc](https://github.com/anishkumar-Embedded/PCB-Design--Automatic-night-lamp/assets/71547910/58ddd20b-a881-4f29-86ef-70697d50eb02)
+
+# Output
+
+![lamp ex-02 ebd](https://github.com/Oviya24032K6/PCB-Design--Automatic-night-lamp/assets/147139999/fd5a9bb6-f7c7-45c0-a36c-4ecf6577a78a)
+
+
+### Schematic diagram
+
+![WhatsApp Image 2024-03-22 at 14 02 34_792f155b](https://github.com/Oviya24032K6/PCB-Design--Automatic-night-lamp/assets/147139999/f24057df-4136-49cb-b4a4-98bfb8ce1d60)
+
+
+
+
+### Layout diagram
+
+![WhatsApp Image 2024-03-22 at 14 03 08_da6971fc](https://github.com/Oviya24032K6/PCB-Design--Automatic-night-lamp/assets/147139999/c2623f84-6111-46c4-8ae0-d0c428d6da69)
+
+
+
+
+
+
+# Result
+Thus the automatic night lamp circuit was designed using proteus software.
 
